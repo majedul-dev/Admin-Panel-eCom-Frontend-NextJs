@@ -140,39 +140,47 @@ export default function Dashboard() {
       {/* Metrics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {metrics.map((metric, index) => (
-          <div key={index} className="bg-white p-6 rounded-xl shadow-sm">
+          <div 
+            key={index} 
+            className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm transition-colors duration-300"
+          >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-500 mb-1">{metric.title}</p>
-                <p className="text-2xl font-semibold">{metric.value}</p>
-                <span className="text-sm text-green-600">{metric.change}</span>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
+                  {metric.title}
+                </p>
+                <p className="text-2xl font-semibold dark:text-white">
+                  {metric.value}
+                </p>
+                <span className="text-sm text-green-600 dark:text-green-400">
+                  {metric.change}
+                </span>
               </div>
-              <div className={`${metric.color} p-3 rounded-lg`}>
-                <metric.icon className="w-6 h-6 text-gray-700" />
+              <div className={`${metric.color} p-3 rounded-lg dark:bg-opacity-20`}>
+                <metric.icon className="w-6 h-6 text-gray-700 dark:text-gray-200" />
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Sales Analytics Section */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 transition-colors duration-300">
         <button
           onClick={() => toggleSection('sales')}
-          className="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
+          className="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300"
         >
           <div className="flex items-center gap-4">
-            <ChartBarIcon className="h-6 w-6 text-blue-600" />
+            <ChartBarIcon className="h-6 w-6 text-blue-600 dark:text-blue-400" />
             <div>
-              <h2 className="text-lg font-semibold">Sales Analytics</h2>
-              <p className="text-sm text-gray-500">Monthly sales performance</p>
+              <h2 className="text-lg font-semibold dark:text-white">Sales Analytics</h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Monthly sales performance</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             {expandedSections.sales ? (
-              <ChevronUpIcon className="h-5 w-5 text-gray-600" />
+              <ChevronUpIcon className="h-5 w-5 text-gray-600 dark:text-gray-300" />
             ) : (
-              <ChevronDownIcon className="h-5 w-5 text-gray-600" />
+              <ChevronDownIcon className="h-5 w-5 text-gray-600 dark:text-gray-300" />
             )}
           </div>
         </button>
@@ -186,16 +194,33 @@ export default function Dashboard() {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="p-6 border-t border-gray-100 space-y-8">
+          <div className="p-6 border-t border-gray-100 dark:border-gray-700 space-y-8">
             {/* Sales Trend Chart */}
-            <div className="h-80">
+            <div className="h-80 [&_.recharts-cartesian-grid-line]:stroke-gray-200 [&_.recharts-cartesian-grid-line]:dark:stroke-gray-600">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={salesData}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
+                  <XAxis 
+                    dataKey="date" 
+                    stroke="#64748b" 
+                    className="dark:text-gray-300"
+                  />
+                  <YAxis 
+                    stroke="#64748b" 
+                    className="dark:text-gray-300"
+                  />
+                  <Tooltip 
+                    contentStyle={{
+                      backgroundColor: '#1e293b',
+                      border: '1px solid #334155',
+                      borderRadius: '8px',
+                    }}
+                    itemStyle={{ color: '#e2e8f0' }}
+                  />
+                  <Legend 
+                    wrapperStyle={{ paddingTop: '20px' }}
+                    className="dark:text-gray-300"
+                  />
                   <Line 
                     type="monotone" 
                     dataKey="total" 
@@ -220,14 +245,31 @@ export default function Dashboard() {
 
             {/* Sales Comparison Charts */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="h-80">
+              <div className="h-80 [&_.recharts-cartesian-grid-line]:stroke-gray-200 [&_.recharts-cartesian-grid-line]:dark:stroke-gray-600">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={salesData}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="date" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
+                    <XAxis 
+                      dataKey="date" 
+                      stroke="#64748b" 
+                      className="dark:text-gray-300"
+                    />
+                    <YAxis 
+                      stroke="#64748b" 
+                      className="dark:text-gray-300"
+                    />
+                    <Tooltip 
+                      contentStyle={{
+                        backgroundColor: '#1e293b',
+                        border: '1px solid #334155',
+                        borderRadius: '8px',
+                      }}
+                      itemStyle={{ color: '#e2e8f0' }}
+                    />
+                    <Legend 
+                      wrapperStyle={{ paddingTop: '20px' }}
+                      className="dark:text-gray-300"
+                    />
                     <Bar dataKey="online" fill="#10B981" />
                     <Bar dataKey="offline" fill="#6366F1" />
                   </BarChart>
@@ -245,6 +287,8 @@ export default function Dashboard() {
                       outerRadius={80}
                       paddingAngle={5}
                       dataKey="value"
+                      stroke="#1e293b"
+                      strokeWidth={1}
                     >
                       {productCategoryData.map((entry, index) => (
                         <Cell 
@@ -253,11 +297,19 @@ export default function Dashboard() {
                         />
                       ))}
                     </Pie>
-                    <Tooltip />
+                    <Tooltip 
+                      contentStyle={{
+                        backgroundColor: '#1e293b',
+                        border: '1px solid #334155',
+                        borderRadius: '8px',
+                      }}
+                      itemStyle={{ color: '#e2e8f0' }}
+                    />
                     <Legend 
                       layout="vertical"
                       align="right"
                       verticalAlign="middle"
+                      className="dark:text-gray-300"
                     />
                   </PieChart>
                 </ResponsiveContainer>
@@ -268,23 +320,24 @@ export default function Dashboard() {
       </div>
 
       {/* Order Analytics Section */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 transition-colors duration-300">
         <button
           onClick={() => toggleSection('orders')}
-          className="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
+          className="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300"
         >
           <div className="flex items-center gap-4">
-            <ShoppingCartIcon className="h-6 w-6 text-blue-600" />
+            <ShoppingCartIcon className="h-6 w-6 text-blue-600 dark:text-blue-400" />
             <div>
-              <h2 className="text-lg font-semibold">Order Analytics</h2>
-              <p className="text-sm text-gray-500">Monthly order performance</p>
+              <h2 className="text-lg font-semibold dark:text-white">Order Analytics</h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Monthly order performance</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             {expandedSections.orders ? (
-              <ChevronUpIcon className="h-5 w-5 text-gray-600" />
+              <ChevronUpIcon className="h-5 w-5 text-gray-600 dark:text-gray-300" />
             ) : (
-              <ChevronDownIcon className="h-5 w-5 text-gray-600" />
+              <ChevronDownIcon className="h-5 w-5 text-gray-600 dark:text-gray-300" />
             )}
           </div>
         </button>
@@ -298,42 +351,59 @@ export default function Dashboard() {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="p-6 border-t border-gray-100 space-y-8">
+          <div className="p-6 border-t border-gray-100 dark:border-gray-700 space-y-8">
             {/* Order Metrics Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-green-50 p-4 rounded-lg flex items-center gap-4">
-                <CheckCircleIcon className="h-8 w-8 text-green-600" />
+              <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg flex items-center gap-4">
+                <CheckCircleIcon className="h-8 w-8 text-green-600 dark:text-green-400" />
                 <div>
-                  <p className="text-sm text-gray-600">Completed Orders</p>
-                  <p className="text-2xl font-semibold">755</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Completed Orders</p>
+                  <p className="text-2xl font-semibold dark:text-white">755</p>
                 </div>
               </div>
-              <div className="bg-amber-50 p-4 rounded-lg flex items-center gap-4">
-                <ClockIcon className="h-8 w-8 text-amber-600" />
+              <div className="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-lg flex items-center gap-4">
+                <ClockIcon className="h-8 w-8 text-amber-600 dark:text-amber-400" />
                 <div>
-                  <p className="text-sm text-gray-600">Pending Orders</p>
-                  <p className="text-2xl font-semibold">120</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Pending Orders</p>
+                  <p className="text-2xl font-semibold dark:text-white">120</p>
                 </div>
               </div>
-              <div className="bg-red-50 p-4 rounded-lg flex items-center gap-4">
-                <XCircleIcon className="h-8 w-8 text-red-600" />
+              <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg flex items-center gap-4">
+                <XCircleIcon className="h-8 w-8 text-red-600 dark:text-red-400" />
                 <div>
-                  <p className="text-sm text-gray-600">Canceled Orders</p>
-                  <p className="text-2xl font-semibold">25</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Canceled Orders</p>
+                  <p className="text-2xl font-semibold dark:text-white">25</p>
                 </div>
               </div>
             </div>
 
             {/* Order Charts */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="h-80">
+              <div className="h-80 [&_.recharts-cartesian-grid-line]:stroke-gray-200 [&_.recharts-cartesian-grid-line]:dark:stroke-gray-600">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={orderData}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
+                    <XAxis 
+                      dataKey="month" 
+                      stroke="#64748b"
+                      className="dark:text-gray-300"
+                    />
+                    <YAxis 
+                      stroke="#64748b"
+                      className="dark:text-gray-300"
+                    />
+                    <Tooltip 
+                      contentStyle={{
+                        backgroundColor: '#1e293b',
+                        border: '1px solid #334155',
+                        borderRadius: '8px',
+                      }}
+                      itemStyle={{ color: '#e2e8f0' }}
+                    />
+                    <Legend 
+                      wrapperStyle={{ paddingTop: '20px' }}
+                      className="dark:text-gray-300"
+                    />
                     <Bar 
                       dataKey="completed" 
                       name="Completed Orders"
@@ -367,6 +437,8 @@ export default function Dashboard() {
                       outerRadius={80}
                       paddingAngle={5}
                       dataKey="value"
+                      stroke="#1e293b"
+                      strokeWidth={1}
                     >
                       {orderStatusData.map((entry, index) => (
                         <Cell 
@@ -376,15 +448,18 @@ export default function Dashboard() {
                       ))}
                     </Pie>
                     <Tooltip 
-                      formatter={(value) => [
-                        value, 
-                        `${((value / 900) * 100).toFixed(1)}%`
-                      ]}
+                      contentStyle={{
+                        backgroundColor: '#1e293b',
+                        border: '1px solid #334155',
+                        borderRadius: '8px',
+                      }}
+                      itemStyle={{ color: '#e2e8f0' }}
                     />
                     <Legend 
                       layout="vertical"
                       align="right"
                       verticalAlign="middle"
+                      className="dark:text-gray-300"
                       iconSize={10}
                       iconType="circle"
                     />
@@ -394,27 +469,27 @@ export default function Dashboard() {
             </div>
 
             {/* Recent Orders Table */}
-            <div className="bg-white border rounded-lg overflow-hidden">
+            <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg overflow-hidden">
               <table className="w-full">
-                <thead className="bg-gray-50">
+                <thead className="bg-gray-50 dark:bg-gray-700">
                   <tr>
-                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-500">Order ID</th>
-                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-500">Customer</th>
-                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-500">Status</th>
-                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-500">Amount</th>
+                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">Order ID</th>
+                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">Customer</th>
+                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">Status</th>
+                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 dark:text-gray-300">Amount</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
+                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                   {[...Array(5)].map((_, i) => (
-                    <tr key={i} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 text-sm font-medium text-gray-900">#00{i + 1}</td>
-                      <td className="px-6 py-4 text-sm text-gray-600">Customer {i + 1}</td>
+                    <tr key={i} className="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                      <td className="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">#00{i + 1}</td>
+                      <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">Customer {i + 1}</td>
                       <td className="px-6 py-4">
-                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">
+                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400">
                           Completed
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-600">${(Math.random() * 500 + 50).toFixed(2)}</td>
+                      <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">${(Math.random() * 500 + 50).toFixed(2)}</td>
                     </tr>
                   ))}
                 </tbody>

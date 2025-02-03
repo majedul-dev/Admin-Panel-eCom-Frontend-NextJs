@@ -11,6 +11,9 @@ import {
   ChevronUpDownIcon,
   ArrowsUpDownIcon
 } from '@heroicons/react/24/outline';
+import Pagination from '../components/Pagination';
+import BulkActions from '../components/BulkActions';
+import DeleteModal from '../components/DeleteModal';
 
 const categories = [
   {
@@ -42,6 +45,7 @@ export default function CategoriesPage() {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isMergeModalOpen, setIsMergeModalOpen] = useState(false);
   const itemsPerPage = 10;
 
   // Sorting functionality
@@ -91,41 +95,39 @@ export default function CategoriesPage() {
   };
 
   // Delete confirmation modal
-  const confirmDelete = () => {
-    // Add your delete logic here
+  const handleDeleteCategories = () => {
     console.log('Deleting categories:', selectedCategories);
+    // Add actual delete logic here
     setSelectedCategories([]);
     setIsDeleteModalOpen(false);
+  };
+  
+  // Merge handler
+  const handleMergeCategories = () => {
+    console.log('Merging categories:', selectedCategories);
+    // Add actual merge logic here
+    setSelectedCategories([]);
+    setIsMergeModalOpen(false);
   };
 
   return (
     <div className="p-6">
       {/* Delete Confirmation Modal */}
-      {isDeleteModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg max-w-md w-full">
-            <h3 className="text-lg font-bold mb-4">Confirm Delete</h3>
-            <p className="mb-4">
-              Are you sure you want to delete {selectedCategories.length} 
-              categor{selectedCategories.length === 1 ? 'y' : 'ies'}?
-            </p>
-            <div className="flex justify-end gap-3">
-              <button
-                onClick={() => setIsDeleteModalOpen(false)}
-                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={confirmDelete}
-                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleDeleteCategories}
+        itemName="category"
+        selectedCount={selectedCategories.length}
+      />
+
+      {/* Merge Modal (create similar component) */}
+      {/* <MergeModal
+        isOpen={isMergeModalOpen}
+        onClose={() => setIsMergeModalOpen(false)}
+        onConfirm={handleMergeCategories}
+        selectedCount={selectedCategories.length}
+      /> */}
 
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
@@ -164,77 +166,77 @@ export default function CategoriesPage() {
       </div>
 
       {/* Categories Table */}
-      <div className="overflow-x-auto rounded-lg border">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+      <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-200">
+        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
-              <th className="px-6 py-3 text-left text-sm font-medium w-12">
+              <th className="px-6 py-3 text-left text-sm font-medium dark:text-gray-300">
                 <input
                   type="checkbox"
                   checked={selectedCategories.length === currentCategories.length}
                   onChange={toggleSelectAll}
-                  className="h-4 w-4"
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 dark:focus:ring-blue-400 dark:ring-offset-gray-800 rounded border-gray-300 dark:border-gray-600 dark:bg-gray-700"
                 />
               </th>
               <th 
-                className="px-6 py-3 text-left text-sm font-medium cursor-pointer"
+                className="px-6 py-3 text-left text-sm font-medium cursor-pointer dark:text-gray-300"
                 onClick={() => handleSort('name')}
               >
                 <div className="flex items-center">
                   Category Name
-                  <ArrowsUpDownIcon className="h-4 w-4 ml-1" />
+                  <ArrowsUpDownIcon className="h-4 w-4 ml-1 text-gray-400 dark:text-gray-500" />
                 </div>
               </th>
-              <th className="px-6 py-3 text-left text-sm font-medium">Description</th>
-              <th className="px-6 py-3 text-left text-sm font-medium">Parent Category</th>
+              <th className="px-6 py-3 text-left text-sm font-medium dark:text-gray-300">Description</th>
+              <th className="px-6 py-3 text-left text-sm font-medium dark:text-gray-300">Parent Category</th>
               <th 
-                className="px-6 py-3 text-left text-sm font-medium cursor-pointer"
+                className="px-6 py-3 text-left text-sm font-medium cursor-pointer dark:text-gray-300"
                 onClick={() => handleSort('productCount')}
               >
                 <div className="flex items-center">
                   Products
-                  <ArrowsUpDownIcon className="h-4 w-4 ml-1" />
+                  <ArrowsUpDownIcon className="h-4 w-4 ml-1 text-gray-400 dark:text-gray-500" />
                 </div>
               </th>
-              <th className="px-6 py-3 text-left text-sm font-medium">Status</th>
-              <th className="px-6 py-3 text-left text-sm font-medium">Actions</th>
+              <th className="px-6 py-3 text-left text-sm font-medium dark:text-gray-300">Status</th>
+              <th className="px-6 py-3 text-left text-sm font-medium dark:text-gray-300">Actions</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             {currentCategories.map((category) => (
-              <tr key={category.id} className="hover:bg-gray-50">
+              <tr key={category.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50">
                 <td className="px-6 py-4">
                   <input
                     type="checkbox"
                     checked={selectedCategories.includes(category.id)}
                     onChange={() => toggleSelectCategory(category.id)}
-                    className="h-4 w-4"
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 dark:focus:ring-blue-400 dark:ring-offset-gray-800 rounded border-gray-300 dark:border-gray-600 dark:bg-gray-700"
                   />
                 </td>
                 <td className="px-6 py-4">
                   <div className="flex items-center">
-                    <FolderIcon className="h-6 w-6 text-gray-400 mr-3" />
+                    <FolderIcon className="h-6 w-6 text-gray-400 dark:text-gray-500 mr-3" />
                     <div>
-                      <div className="font-medium">{category.name}</div>
-                      <div className="text-sm text-gray-500">/{category.slug}</div>
+                      <div className="font-medium dark:text-white">{category.name}</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">/{category.slug}</div>
                     </div>
                   </div>
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-600 max-w-xs">
+                <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-300 max-w-xs">
                   {category.description || '–'}
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-600">
+                <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
                   {category.parentCategory || '–'}
                 </td>
                 <td className="px-6 py-4 text-sm">
-                  <span className="font-medium">{category.productCount}</span>
-                  <span className="text-gray-500 ml-1">products</span>
+                  <span className="font-medium dark:text-white">{category.productCount}</span>
+                  <span className="text-gray-500 dark:text-gray-400 ml-1">products</span>
                 </td>
                 <td className="px-6 py-4">
                   <span className={`px-2 py-1 rounded-full text-xs ${
                     category.status === 'active' 
-                      ? 'bg-green-100 text-green-800' 
-                      : 'bg-gray-100 text-gray-800'
+                      ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' 
+                      : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
                   }`}>
                     {category.status}
                   </span>
@@ -243,16 +245,16 @@ export default function CategoriesPage() {
                   <div className="flex items-center space-x-3">
                     <Link
                       href={`/categories/${category.id}/edit`}
-                      className="text-blue-600 hover:text-blue-900"
+                      className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-200"
                     >
                       <PencilSquareIcon className="h-5 w-5" />
                     </Link>
                     <button 
+                      className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 transition-colors duration-200"
                       onClick={() => {
                         setSelectedCategories([category.id]);
                         setIsDeleteModalOpen(true);
                       }}
-                      className="text-red-600 hover:text-red-900"
                     >
                       <TrashIcon className="h-5 w-5" />
                     </button>
@@ -265,47 +267,33 @@ export default function CategoriesPage() {
       </div>
 
       {/* Pagination */}
-      <div className="mt-6 flex justify-between items-center">
-        <div className="text-sm text-gray-700">
-          Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, filteredCategories.length)} of {filteredCategories.length} results
-        </div>
-        <div className="flex gap-2">
-          <button
-            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-            disabled={currentPage === 1}
-            className="px-4 py-2 border rounded-lg hover:bg-gray-50 disabled:opacity-50"
-          >
-            Previous
-          </button>
-          <button
-            onClick={() => setCurrentPage(p => p + 1)}
-            disabled={indexOfLastItem >= filteredCategories.length}
-            className="px-4 py-2 border rounded-lg hover:bg-gray-50 disabled:opacity-50"
-          >
-            Next
-          </button>
-        </div>
-      </div>
+      <Pagination
+        currentPage={currentPage}
+        // totalPages={totalPages}
+        onPageChange={(page) => {
+          // Handle page change logic
+          setCurrentPage(page);
+          // You might want to update the URL or fetch new data
+        }}
+      />
 
       {/* Bulk Actions */}
-      {selectedCategories.length > 0 && (
-        <div className="fixed bottom-4 right-4 bg-white p-4 rounded-lg shadow-lg flex items-center gap-4">
-          <span className="text-sm">{selectedCategories.length} selected</span>
-          <div className="flex gap-2">
-            <button 
-              onClick={() => setIsDeleteModalOpen(true)}
-              className="px-3 py-1 text-sm bg-red-100 text-red-600 rounded hover:bg-red-200"
-            >
-              Delete Selected
-            </button>
-            <button className="px-3 py-1 text-sm bg-gray-100 text-gray-600 rounded hover:bg-gray-200">
-              {selectedCategories.some(c => categories.find(cat => cat.id === c)?.status === 'active') 
-                ? 'Archive Selected' 
-                : 'Activate Selected'}
-            </button>
-          </div>
-        </div>
-      )}
+      <BulkActions
+        selectedCount={selectedCategories.length}
+        actions={[
+          {
+            key: 'merge',
+            label: 'Merge Categories',
+            onAction: () => setIsMergeModalOpen(true)
+          },
+          {
+            key: 'delete',
+            label: 'Delete Categories',
+            variant: 'danger',
+            onAction: () => setIsDeleteModalOpen(true)
+          }
+        ]}
+      />
     </div>
   );
 }
