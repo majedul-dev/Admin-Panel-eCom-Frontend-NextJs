@@ -273,6 +273,9 @@ export default function CustomersPage() {
                     <button 
                       className="tooltip text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 transition-colors duration-200"
                       data-tooltip="Delete customer"
+                      onClick={() => {
+                        setIsDeleteModalOpen(true);
+                      }}
                     >
                       <TrashIcon className="h-5 w-5" />
                     </button>

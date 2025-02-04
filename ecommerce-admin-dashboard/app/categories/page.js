@@ -245,12 +245,14 @@ export default function CategoriesPage() {
                   <div className="flex items-center space-x-3">
                     <Link
                       href={`/categories/${category.id}/edit`}
-                      className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-200"
+                      className="tooltip text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-200"
+                      data-tooltip="Edit Category"
                     >
                       <PencilSquareIcon className="h-5 w-5" />
                     </Link>
                     <button 
-                      className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 transition-colors duration-200"
+                      className="tooltip text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 transition-colors duration-200"
+                      data-tooltip="Delete Category"
                       onClick={() => {
                         setSelectedCategories([category.id]);
                         setIsDeleteModalOpen(true);

@@ -305,14 +305,21 @@ export default function ProductsPage() {
             <div className="flex items-center space-x-3">
               <Link
                 href={`/products/${product.id}/edit`}
-                className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                className="tooltip text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                data-tooltip="Edit Product"
               >
                 <PencilSquareIcon className="h-5 w-5" />
               </Link>
-              <button className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">
+              <button className="tooltip text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300" data-tooltip="Hide Product">
                 <EyeIcon className="h-5 w-5" />
               </button>
-              <button className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
+              <button
+                className="tooltip text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
+                data-tooltip="Delete Product"
+                onClick={() => {
+                  setIsDeleteProductModalOpen(true);
+                }}
+              >
                 <TrashIcon className="h-5 w-5" />
               </button>
             </div>
