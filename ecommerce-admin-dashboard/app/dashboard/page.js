@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   LineChart,
   BarChart,
@@ -31,35 +31,6 @@ import {
   TagIcon
 } from '@heroicons/react/24/outline';
 
-// Temporary data
-const salesData = [
-  { date: '2024-01', total: 4000, online: 2400, offline: 1600 },
-  { date: '2024-02', total: 4500, online: 2800, offline: 1700 },
-  { date: '2024-03', total: 6000, online: 3500, offline: 2500 },
-  { date: '2024-04', total: 5800, online: 3000, offline: 2800 },
-  { date: '2024-05', total: 7200, online: 4200, offline: 3000 },
-];
-
-const productCategoryData = [
-  { name: 'Electronics', value: 4000 },
-  { name: 'Fashion', value: 3000 },
-  { name: 'Home & Kitchen', value: 2000 },
-  { name: 'Books', value: 1000 },
-];
-
-const orderData = [
-  { month: 'Jan', completed: 120, pending: 45, canceled: 10, revenue: 24000 },
-  { month: 'Feb', completed: 150, pending: 35, canceled: 5, revenue: 30000 },
-  { month: 'Mar', completed: 180, pending: 25, canceled: 8, revenue: 36000 },
-  { month: 'Apr', completed: 200, pending: 15, canceled: 3, revenue: 40000 },
-];
-
-const orderStatusData = [
-  { name: 'Completed', value: 755, color: '#10B981' },
-  { name: 'Pending', value: 120, color: '#F59E0B' },
-  { name: 'Canceled', value: 25, color: '#EF4444' },
-];
-
 const COLORS = ['#3B82F6', '#6366F1', '#10B981', '#F59E0B', '#EF4444'];
 
 export default function Dashboard() {
@@ -69,6 +40,47 @@ export default function Dashboard() {
     sales: true,
     orders: true
   });
+  const [salesData, setSalesData] = useState([]);
+  const [productCategoryData, setProductCategoryData] = useState([]);
+  const [orderData, setOrderData] = useState([]);
+  const [orderStatusData, setOrderStatusData] = useState([]);
+  const [orderAmounts, setOrderAmounts] = useState([]);
+
+  useEffect(() => {
+    // Ensure data is only set on the client to avoid SSR mismatches
+    setSalesData([
+      { date: '2024-01', total: 4000, online: 2400, offline: 1600 },
+      { date: '2024-02', total: 4500, online: 2800, offline: 1700 },
+      { date: '2024-03', total: 6000, online: 3500, offline: 2500 },
+      { date: '2024-04', total: 5800, online: 3000, offline: 2800 },
+      { date: '2024-05', total: 7200, online: 4200, offline: 3000 },
+    ]);
+
+    setProductCategoryData([
+      { name: 'Electronics', value: 4000 },
+      { name: 'Fashion', value: 3000 },
+      { name: 'Home & Kitchen', value: 2000 },
+      { name: 'Books', value: 1000 },
+    ]);
+
+    setOrderData([
+      { month: 'Jan', completed: 120, pending: 45, canceled: 10, revenue: 24000 },
+      { month: 'Feb', completed: 150, pending: 35, canceled: 5, revenue: 30000 },
+      { month: 'Mar', completed: 180, pending: 25, canceled: 8, revenue: 36000 },
+      { month: 'Apr', completed: 200, pending: 15, canceled: 3, revenue: 40000 },
+    ]);
+
+    setOrderStatusData([
+      { name: 'Completed', value: 755, color: '#10B981' },
+      { name: 'Pending', value: 120, color: '#F59E0B' },
+      { name: 'Canceled', value: 25, color: '#EF4444' },
+    ]);
+
+    // Generate random amounts once on client side
+    setOrderAmounts(
+      Array.from({ length: 5 }, () => (Math.random() * 500 + 50).toFixed(2))
+    );
+  }, []);
 
   const toggleSection = (section) => {
     setExpandedSections(prev => ({
@@ -480,7 +492,7 @@ export default function Dashboard() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {[...Array(5)].map((_, i) => (
+                  {orderAmounts.map((amount, i) => (
                     <tr key={i} className="hover:bg-gray-50 dark:hover:bg-gray-700/50">
                       <td className="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">#00{i + 1}</td>
                       <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">Customer {i + 1}</td>
@@ -489,7 +501,7 @@ export default function Dashboard() {
                           Completed
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">${(Math.random() * 500 + 50).toFixed(2)}</td>
+                      <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">${amount}</td>
                     </tr>
                   ))}
                 </tbody>

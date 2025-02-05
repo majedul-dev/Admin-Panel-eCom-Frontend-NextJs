@@ -11,9 +11,9 @@ import {
   EyeIcon,
   TrashIcon
 } from '@heroicons/react/24/outline';
-import Pagination from '../components/Pagination';
-import BulkActions from '../components/BulkActions';
-import DeleteModal from '../components/DeleteModal';
+import Pagination from '../../components/Pagination';
+import BulkActions from '../../components/BulkActions';
+import DeleteModal from '../../components/DeleteModal';
 
 const customers = [
   {
@@ -235,7 +235,7 @@ export default function CustomersPage() {
                   </div>
                 </td>
                 <td className="px-6 py-4 text-sm dark:text-gray-300">
-                  {new Date(customer.registered).toLocaleDateString()}
+                  {new Date(customer.registered).toISOString().split("T")[0]}
                 </td>
                 <td className="px-6 py-4">
                   <div className="text-sm font-medium dark:text-gray-300">{customer.email}</div>
@@ -248,7 +248,7 @@ export default function CustomersPage() {
                   ${customer.totalSpent.toFixed(2)}
                 </td>
                 <td className="px-6 py-4 text-sm dark:text-gray-300">
-                  {new Date(customer.lastOrder).toLocaleDateString()}
+                  {new Date(customer.registered).toISOString().split("T")[0]}
                 </td>
                 <td className="px-6 py-4">
                   <span className={`px-2 py-1 rounded-full text-xs ${statusColors[customer.status]} dark:bg-opacity-30`}>

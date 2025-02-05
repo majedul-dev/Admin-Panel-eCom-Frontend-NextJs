@@ -12,9 +12,9 @@ import {
   ArrowsUpDownIcon,
   EllipsisVerticalIcon
 } from '@heroicons/react/24/outline';
-import Pagination from '../components/Pagination';
-import BulkActions from '../components/BulkActions';
-import DeleteModal from '../components/DeleteModal';
+import Pagination from '../../components/Pagination';
+import BulkActions from '../../components/BulkActions';
+import DeleteModal from '../../components/DeleteModal';
 
 const orders = [
   {
@@ -238,7 +238,7 @@ export default function OrdersPage() {
                   <div className="text-sm text-gray-500 dark:text-gray-400">{order.email}</div>
                 </td>
                 <td className="px-6 py-4 text-sm dark:text-gray-300">
-                  {new Date(order.date).toLocaleDateString()}
+                  {new Date(order.date).toISOString().split("T")[0]}
                 </td>
                 <td className="px-6 py-4">
                   <span className={`px-2 py-1 rounded-full text-xs ${statusColors[order.status]} dark:bg-opacity-30`}>

@@ -110,7 +110,7 @@ export default function ProductForm() {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <Link
-          href="/products"
+          href="/dashboard/products"
           className="flex items-center text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100 transition-colors"
         >
           <ArrowLeftIcon className="h-5 w-5 mr-2" />

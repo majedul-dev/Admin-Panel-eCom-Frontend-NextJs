@@ -11,9 +11,9 @@ import {
   ChevronUpDownIcon,
   ArrowsUpDownIcon
 } from '@heroicons/react/24/outline';
-import Pagination from '../components/Pagination';
-import BulkActions from '../components/BulkActions';
-import DeleteModal from '../components/DeleteModal';
+import Pagination from '../../components/Pagination';
+import BulkActions from '../../components/BulkActions';
+import DeleteModal from '../../components/DeleteModal';
 
 const categories = [
   {
@@ -133,7 +133,7 @@ export default function CategoriesPage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
         <h1 className="text-2xl font-bold">Categories Management</h1>
         <Link 
-          href="/categories/new"
+          href="/dashboard/categories/new"
           className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
         >
           <PlusIcon className="h-5 w-5 mr-2" />
