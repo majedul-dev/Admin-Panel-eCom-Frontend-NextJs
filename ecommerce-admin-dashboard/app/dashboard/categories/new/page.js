@@ -2,7 +2,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeftIcon, FolderIcon, PhotoIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon, FolderIcon, PhotoIcon, TrashIcon } from '@heroicons/react/24/outline';
 
 export default function CreateCategoryPage() {
   const router = useRouter();
@@ -20,18 +20,18 @@ export default function CreateCategoryPage() {
   const [errors, setErrors] = useState({});
 
   // Fetch existing categories for parent selection
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch('/api/categories');
-        const data = await response.json();
-        setCategories(data);
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-      }
-    };
-    fetchCategories();
-  }, []);
+  // useEffect(() => {
+  //   const fetchCategories = async () => {
+  //     try {
+  //       const response = await fetch('/api/categories');
+  //       const data = await response.json();
+  //       setCategories(data);
+  //     } catch (error) {
+  //       console.error('Error fetching categories:', error);
+  //     }
+  //   };
+  //   fetchCategories();
+  // }, []);
 
   // Handle image selection
   const handleImageChange = (e) => {

@@ -29,8 +29,8 @@ export default function Sidebar() {
   ];
 
   const secondaryNavigation = [
-    { name: 'Create Product', href: '/products/new', icon: PlusIcon },
-    { name: 'Add Category', href: '/categories/new', icon: PlusIcon },
+    { name: 'Create Product', href: '/dashboard/products/new', icon: PlusIcon },
+    { name: 'Add Category', href: '/dashboard/categories/new', icon: PlusIcon },
   ];
 
   return (
